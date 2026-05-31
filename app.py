@@ -4,7 +4,7 @@ import time
 # Configuración de la pestaña
 st.set_page_config(page_title="Para Lizbeth con amor", page_icon="❤️")
 
-# --- ESTILO CSS AVANZADO (Fondo de corazones y Lluvia de Corazones) ---
+# --- ESTILO CSS AVANZADO (Fondo, lluvia constante y ráfaga del botón) ---
 st.markdown("""
     <style>
     .stApp { 
@@ -12,9 +12,17 @@ st.markdown("""
         background-image: url('https://www.transparenttextures.com/patterns/hearts.png') !important;
     }
     
+    /* Lluvia constante (cae) */
     @keyframes hearts-fall {
         0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 1; }
         100% { top: 100%; transform: translateX(100px) rotate(360deg); opacity: 0; }
+    }
+
+    /* Ráfaga de celebración (sube) */
+    @keyframes hearts-rise {
+        0% { bottom: -10%; transform: translateX(0) scale(0.5); opacity: 1; }
+        50% { opacity: 1; }
+        100% { bottom: 110%; transform: translateX(150px) scale(1.5) rotate(180deg); opacity: 0; }
     }
 
     .heart-drop {
@@ -25,6 +33,16 @@ st.markdown("""
         user-select: none;
         z-index: 9999;
         animation: hearts-fall 5s linear infinite;
+    }
+
+    .heart-rise {
+        position: fixed;
+        bottom: -10%;
+        color: #de1b44;
+        font-size: 35px;
+        user-select: none;
+        z-index: 10000;
+        animation: hearts-rise 4s ease-out forwards;
     }
 
     h1, h2, h3, p, li { color: #5c1d2e !important; font-family: 'Georgia', serif; }
@@ -55,14 +73,25 @@ def lluvia_de_corazones():
         corazones_html += f'<div class="heart-drop" style="left: {left}%; animation-delay: {delay}s;">❤️</div>'
     st.markdown(corazones_html, unsafe_allow_html=True)
 
+def rafaga_corazones():
+    # Esta función hace que salgan corazones hacia arriba al presionar el botón
+    corazones_suben = ""
+    for i in range(30):
+        left = (i * 3.3) + 5
+        delay = (i % 5) * 0.2
+        corazones_suben += f'<div class="heart-rise" style="left: {left}%; animation-delay: {delay}s;">💖</div>'
+    st.markdown(corazones_suben, unsafe_allow_html=True)
+
 if 'paso' not in st.session_state:
     st.session_state.paso = 1
 
-# --- FASE 1: ACCESO (Actualizada para Lizbeth) ---
+if 'celebrar' not in st.session_state:
+    st.session_state.celebrar = False
+
+# --- FASE 1: ACCESO ---
 if st.session_state.paso == 1:
     st.title("✨ Un secreto para la mejor profesional...")
     st.write("### Hola, Lizbeth...")
-    # Pregunta ajustada a su situación actual
     profesion = st.text_input("Para entrar, dime: ¿De qué carrera te graduaste y eres la más brillante?", placeholder="Escribe aquí...")
     if st.button("Abrir mi corazón"):
         if any(x in profesion.lower() for x in ["psicolo", "psicóloga", "psicologia"]):
@@ -89,6 +118,11 @@ elif st.session_state.paso == 2:
 # --- FASE 3: LA CARTA ---
 elif st.session_state.paso == 3:
     lluvia_de_corazones()
+    
+    # Si activó el botón, disparamos los corazones hacia arriba
+    if st.session_state.celebrar:
+        rafaga_corazones()
+        
     st.title("💝 Lizbeth, esto es para ti")
     
     tab1, tab2, tab3, tab4 = st.tabs(["👁️ Tu Mirada", "🎓 Tu Vocación", "🌌 Distancia", "✉️ Nota Final"])
@@ -111,17 +145,21 @@ elif st.session_state.paso == 3:
     with tab3:
         st.write("### Sin importar los kilómetros")
         st.write(f"""
-        Aunque la distancia esté presente, para mí no es un obstáculo insuperable. Sé que ambos tenemos trabajos, metas y responsabilidades, pero **no me importa la distancia.** Yo seguiré luchando por ti y por lo que siento, aunque me cueste. Creo firmemente que lo que hay entre nosotros es especial y puede llegar muy lejos. Los kilómetros no significan nada cuando alguien te llena tanto como tú a mí.
+        Aunque la distancia esté presente, para mí no es un obstacle insuperable. Sé que ambos tenemos trabajos, metas y responsabilidades, pero **no me importa la distancia.** Yo seguiré luchando por ti y por lo que siento, aunque me cueste. Creo firmemente que lo que hay entre nosotros es especial y puede llegar muy lejos. Los kilómetros no significan nada cuando alguien te llena tanto como tú a mí.
         """)
 
     with tab4:
         st.write("### Con todo mi amor")
         st.write(f"""
-        Lizbeth, espero que con este detalle entiendas por qué sigo aquí y por qué sigo luchando por ti. Eres una persona que me llena de amor de una manera inexplicable. 
+        Lizbeth, espero que con este detalle encantes por qué sigo aquí y por qué sigo luchando por ti. Eres una persona que me llena de amor de una manera inexplicable. 
         
         A pesar de los inconvenientes o los silencios, mi sentimiento sigue intacto. Sigo aquí porque de verdad te quiero en mi vida. **Me llenas el alma.**
         """)
         st.markdown("---")
         if st.button("¡Me encantó! ❤️"):
-            st.balloons()
-            st.write("### ¡Gracias por ser tú, Lizbeth! 😊")
+            st.session_state.celebrar = True
+            st.rerun()
+
+    # Si se presionó el botón, mostramos el mensaje final abajo
+    if st.session_state.celebrar:
+        st.write("### ¡Gracias por ser tú, Lizbeth! 😊")
