@@ -4,7 +4,7 @@ import time
 # Configuración de la pestaña
 st.set_page_config(page_title="Para Lizbeth con amor", page_icon="❤️")
 
-# --- ESTILO CSS (Fondo de corazones y Lluvia de Corazones) ---
+# --- ESTILO CSS ---
 st.markdown("""
     <style>
     .stApp { 
@@ -44,14 +44,14 @@ st.markdown("""
         border-radius: 25px !important;
         box-shadow: 0px 10px 30px rgba(0,0,0,0.15) !important;
     }
-
-    /* Estilo de las pestañas */
-    .stTabs [data-baseweb="tab-list"] { gap: 8px; }
-    .stTabs [data-baseweb="tab"] {
-        background-color: rgba(255, 255, 255, 0.4);
-        border-radius: 10px 10px 0 0;
-        color: #5c1d2e;
-        padding: 10px 20px;
+    
+    /* Estilo para la línea del tiempo */
+    .moment-box {
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 15px;
+        border-left: 5px solid #ff4b6e;
+        border-radius: 0 15px 15px 0;
+        margin-bottom: 10px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -69,28 +69,26 @@ if 'paso' not in st.session_state:
 
 # --- FASE 1: ACCESO ---
 if st.session_state.paso == 1:
-    st.title("✨ Un secreto para la psicóloga más linda...")
+    st.title("✨ Un secreto para la mejor profesional...")
     st.write("### Hola, Lizbeth...")
-    profesion = st.text_input("Para entrar, dime:¿De qué carrera te graduaste y eres la más brillante?", placeholder="Escribe aquí...")
+    profesion = st.text_input("Para entrar, dime: ¿De qué carrera te graduaste y eres la más brillante?", placeholder="Escribe aquí...")
     if st.button("Abrir mi corazón"):
         if any(x in profesion.lower() for x in ["psicolo", "psicóloga", "psicologia"]):
-            st.success("Acceso concedido... Prepárate para lo que sigue.")
-            time.sleep(1.5)
+            st.success("Acceso concedido... Bienvenida.")
+            time.sleep(1.2)
             st.session_state.paso = 2
             st.rerun()
         else:
-            st.error("Esa no es la respuesta correcta... Pista: Es la carrera de alguien que sabe leer el alma.")
+            st.error("Pista: Es la profesión de alguien que sabe leer el alma.")
 
 # --- FASE 2: CARGA ---
 elif st.session_state.paso == 2:
-    with st.status("Preparando algo especial...", expanded=True) as s:
-        st.write("❤️ Buscando recuerdos de aquella fiesta...")
-        time.sleep(1.5)
-        st.write("✨ Analizando la sonrisa de Lizbeth...")
-        time.sleep(1.5)
-        st.write("📦 Enviando sentimientos a través de la distancia...")
+    with st.status("Cargando recuerdos...", expanded=True) as s:
+        st.write("❤️ Reviviendo momentos de estos 2 años...")
         time.sleep(1.2)
-        s.update(label="¡Todo listo!", state="complete")
+        st.write("✨ Recordando tu sonrisa en aquella fiesta...")
+        time.sleep(1.2)
+        s.update(label="¡Listo!", state="complete")
     st.session_state.paso = 3
     st.rerun()
 
@@ -99,49 +97,42 @@ elif st.session_state.paso == 3:
     lluvia_de_corazones()
     st.title("💝 Lizbeth, esto es para ti")
     
-    tab1, tab2, tab3, tab4 = st.tabs(["👁️ Tu Mirada", "🎓 Tu Vocación", "🌌 Distancia", "✉️ Nota Final"])
+    # Añadimos la pestaña de "Nuestros Momentos"
+    tab1, tab_m, tab2, tab3, tab4 = st.tabs(["👁️ Tu Mirada", "⏳ Momentos", "🎓 Tu Vocación", "🌌 Distancia", "✉️ Nota Final"])
 
     with tab1:
         st.write("### Lo que me atrapó de ti")
-        st.write(f"""
-        Lizbeth, tengo que confesarte que me has llamado la atención desde el primer momento en que nuestros caminos se cruzaron. 
-        **Desde que nos vimos en esa fiesta, me atrapaste.** No fue solo el momento, fue tu presencia y, sobre todo, tu bella sonrisa la que se quedó grabada en mi mente.
-        
-        Desde hace dos años no he dejado de pensar en tus ojos y en la forma en que iluminas todo a tu alrededor. Tus ojos reflejan una paz y una inteligencia 
-        que me cautivaron desde el día uno y, sinceramente, es mi lugar favorito en el mundo.
-        """)
+        st.write("Lizbeth, desde que nos vimos en esa fiesta, me atrapaste por completo. Tu presencia y tu bella sonrisa se quedaron grabadas en mí.")
         col1, col2 = st.columns(2)
-        with col1: st.image("foto1.jpg", caption="Esa mirada que me cautivó ✨")
-        with col2: st.image("foto2.jpg", caption="Tu sonrisa, mi debilidad ❤️")
+        with col1: st.image("foto1.jpg", caption="Esa mirada ✨")
+        with col2: st.image("foto2.jpg", caption="Tu sonrisa ❤️")
+
+    with tab_m:
+        st.write("### Pequeños instantes, grandes recuerdos")
+        st.write("Hay cosas que he guardado en mi memoria durante estos dos años porque te hacen única:")
+        
+        st.markdown("""
+        <div class="moment-box">
+            <strong>✨ El primer encuentro:</strong> Aquella fiesta donde tu sonrisa hizo que todo lo demás desapareciera. Fue el momento exacto en que supe que no serías alguien pasajera en mi vida.
+        </div>
+        <div class="moment-box">
+            <strong>📩 Tus palabras:</strong> Cada mensaje que me ha hecho el día, demostrándome la persona increíble y empática que eres.
+        </div>
+        <div class="moment-box">
+            <strong>🎓 Tu esfuerzo:</strong> Ver cómo terminabas tu carrera. Ese día confirmé que serías una psicóloga brillante, no solo por tus estudios, sino por tu enorme corazón.
+        </div>
+        """, unsafe_allow_html=True)
 
     with tab2:
-        st.write("### La mejor Psicóloga que el mundo tendrá")
-        st.write(f"""
-        Siempre te lo digo y no me voy a cansar de repetirlo: **vas a ser la mejor psicóloga.** Y no lo digo solo por decir, lo digo porque veo en ti 
-        a una mujer con un corazón enorme, alguien a quien genuinamente le gusta ayudar a los demás. 
-        
-        Me encanta el empeño y la pasión que le metes a tu carrera, ver cómo vas enfocada hacia tus metas es algo que admiro profundamente de ti. 
-        Además de ser una profesional dedicada, eres la psicóloga más bonita que existe. Tu vocación es el reflejo de la gran persona que eres por dentro.
-        """)
+        st.write("### La mejor Psicóloga")
+        st.write("Para mí, ya eres la mejor. Admiro tu empeño, tu enfoque hacia tus metas y tu capacidad para ayudar a los demás. Eres brillante y, además, la psicóloga más hermosa que existe.")
 
     with tab3:
-        st.write("### Sin importar los kilómetros")
-        st.write(f"""
-        Sé que tenemos la distancia en contra y, a veces, puede sentirse un poco difícil. Ambos tenemos trabajos, metas personales y responsabilidades 
-        que nos mantienen ocupados, pero quiero que sepas algo muy importante: **no me importa la distancia.** Yo seguiré luchando por ti y por lo que siento, aunque me cueste, porque creo firmemente en lo que puede llegar a haber entre nosotros. 
-        Los kilómetros son solo números cuando el sentimiento es real, y para mí, tú vales cada metro de separación.
-        """)
+        st.write("### La Distancia")
+        st.write("No me importa la distancia. Seguiré luchando por ti y por lo que siento, porque creo firmemente en nosotros. Los kilómetros no significan nada cuando alguien te llena el alma.")
 
     with tab4:
         st.write("### Con todo mi amor")
-        st.write(f"""
-        Lizbeth, espero que con este pequeño detalle que programé para ti, entiendas por qué me gustas tanto y por qué sigo aquí, luchando por ti día tras día. 
-        
-        Eres una persona que me llena de amor de una manera que no puedo explicar del todo con palabras, por eso intenté hacerlo con este código. 
-        A pesar de los inconvenientes o los silencios que hemos tenido, mi sentimiento por ti no cambia. **De verdad, me llenas el alma.**
-        """)
-        st.markdown("---")
+        st.write("Lizbeth, espero que entiendas por qué sigo aquí. Me llenas de amor de una manera inexplicable y, a pesar de todo, mi sentimiento por ti sigue intacto.")
         if st.button("¡Me encantó! ❤️"):
             st.balloons()
-            st.write("### ¡Gracias por ser tú, Lizbeth! 😊")
-            st.write("Espero haberte sacado la sonrisa más grande de tu día.")
