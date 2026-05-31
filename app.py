@@ -151,7 +151,7 @@ elif st.session_state.paso == 3:
     with tab4:
         st.write("### Con todo mi amor")
         st.write(f"""
-        Lizbeth, espero que con este detalle encantes por qué sigo aquí y por qué sigo luchando por ti. Eres una persona que me llena de amor de una manera inexplicable. 
+        Lizbeth, espero que con este detalle entiendas por qué sigo aquí y por qué sigo luchando por ti. Eres una persona que me llena de amor de una manera inexplicable. 
         
         A pesar de los inconvenientes o los silencios, mi sentimiento sigue intacto. Sigo aquí porque de verdad te quiero en mi vida. **Me llenas el alma.**
         """)
