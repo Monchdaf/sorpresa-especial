@@ -71,7 +71,7 @@ if 'paso' not in st.session_state:
 if st.session_state.paso == 1:
     st.title("✨ Un secreto para la psicóloga más linda...")
     st.write("### Hola, Lizbeth...")
-    profesion = st.text_input("Para entrar, dime: ¿Qué profesión estás estudiando?", placeholder="Escribe aquí...")
+    profesion = st.text_input("Para entrar, dime:¿De qué carrera te graduaste y eres la más brillante?", placeholder="Escribe aquí...")
     if st.button("Abrir mi corazón"):
         if any(x in profesion.lower() for x in ["psicolo", "psicóloga", "psicologia"]):
             st.success("Acceso concedido... Prepárate para lo que sigue.")
